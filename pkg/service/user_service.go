@@ -1,46 +1,29 @@
-package server
+package service
 
 import (
 	"fmt"
-	"log"
 	"math"
-	"net"
 
 	"github.com/abdullahnettoor/grpc-user-service/pb"
-	"github.com/abdullahnettoor/grpc-user-service/pkg/config"
 	"github.com/brianvoe/gofakeit/v6"
 	"google.golang.org/grpc"
 )
 
-type server struct {
-	Server *grpc.Server
-	Users  []*pb.User
+type userService struct {
+	Users []*pb.User
+	pb.UnimplementedUserServiceServer
 }
 
-func NewServer() *server {
+func NewUserServiceServer() *userService {
 	engine := grpc.NewServer()
 
 	pb.RegisterUserServiceServer(engine, pb.UnimplementedUserServiceServer{})
 
 	UserList := SimulateUserList()
 
-	return &server{
-		Server: engine,
-		Users:  UserList,
+	return &userService{
+		Users: UserList,
 	}
-}
-
-func (s *server) Start(c *config.Config) {
-
-	lis, err := net.Listen("tcp", c.Port)
-	if err != nil {
-		log.Fatalln("error ocurred:", err.Error())
-	}
-
-	if err := s.Server.Serve(lis); err != nil {
-		log.Fatalln("error ocurred:", err.Error())
-	}
-
 }
 
 func SimulateUserList() []*pb.User {

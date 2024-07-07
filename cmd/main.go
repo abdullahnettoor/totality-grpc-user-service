@@ -2,9 +2,12 @@ package main
 
 import (
 	"log"
+	"net"
 
+	"github.com/abdullahnettoor/grpc-user-service/pb"
 	"github.com/abdullahnettoor/grpc-user-service/pkg/config"
-	"github.com/abdullahnettoor/grpc-user-service/pkg/server"
+	"github.com/abdullahnettoor/grpc-user-service/pkg/service"
+	"google.golang.org/grpc"
 )
 
 func main() {
@@ -13,7 +16,16 @@ func main() {
 		log.Fatalln("config error:", err.Error())
 	}
 
-	svr := server.NewServer()
+	lis, err := net.Listen("tcp", cfg.Port)
+	if err != nil {
+		log.Fatalln("error ocurred:", err.Error())
+	}
+
+	svr := grpc.NewServer()
+	pb.RegisterUserServiceServer(svr, service.NewUserServiceServer())
+
 	log.Println("Server Started on Port", cfg.Port)
-	svr.Start(cfg)
+	if err := svr.Serve(lis); err != nil {
+		log.Fatalln("server error ocurred:", err.Error())
+	}
 }
