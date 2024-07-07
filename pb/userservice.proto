@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "./pb";
+
+service UserService {
+    rpc GetUserByID(GetUserByIDReq) returns (GetUserByIDRes){}
+    rpc GetUserListByIDs(GetUserListByIDsReq) returns (GetUserListByIDsRes){}
+    rpc SearchUser(SearchUserReq) returns (SearchUserRes){}
+}
+
+message UserDetails {
+    uint64 id = 1;
+    string fname = 2;
+    string city = 3;
+    string  phone = 4;
+    float height = 5;
+    bool isMarried = 6;
+}
+
+message GetUserByIDReq {
+    uint64 id = 1;
+}
+
+message GetUserByIDRes {
+    UserDetails user = 1;
+}
+
+message GetUserListByIDsReq {
+    repeated uint64 ids = 1;
+}
+
+message GetUserListByIDsRes {
+    repeated UserDetails userList = 1;
+}
+
+message SearchUserReq {
+    string fname = 1;
+    string city = 2;
+    string phone = 3;
+    float height = 4;
+    bool isMarried = 5;
+}
+
+message SearchUserRes {
+    repeated UserDetails userList = 1;
+}
