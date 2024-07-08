@@ -23,17 +23,17 @@ func NewUserServiceServer() *userService {
 
 	pb.RegisterUserServiceServer(engine, pb.UnimplementedUserServiceServer{})
 
-	UserList := SimulateUserList()
+	UserList := SimulateUserList(100)
 
 	return &userService{
 		Users: UserList,
 	}
 }
 
-func SimulateUserList() []*pb.User {
+func SimulateUserList(count uint) []*pb.User {
 	f := gofakeit.New(0)
 
-	userList := make([]*pb.User, 100)
+	userList := make([]*pb.User, count)
 
 	fmt.Println("--------------------------------USER LIST--------------------------------")
 	fmt.Printf("ID  NAME \t CITY \t\t\t PHONE \t\t HEIGHT    MARRIED \n")
@@ -94,7 +94,7 @@ func (us *userService) GetUserListByIDs(ctx context.Context, req *pb.GetUserList
 	} 
 
 	fmt.Printf("Found %d results\n", len(res.UserList))
-	
+
 	if len(notFound) != 0 {
 		res.NotFound = notFound
 	}
