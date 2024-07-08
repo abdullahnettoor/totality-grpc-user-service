@@ -17,6 +17,7 @@ type userService struct {
 	pb.UnimplementedUserServiceServer
 }
 
+// NewUserServiceServer creates a new instance of the userService struct
 func NewUserServiceServer() *userService {
 
 	UserList := SimulateUserList(100)
@@ -26,6 +27,7 @@ func NewUserServiceServer() *userService {
 	}
 }
 
+// SimulateUserList generates a list of fake users
 func SimulateUserList(count uint) []*pb.User {
 	f := gofakeit.New(0)
 
@@ -50,6 +52,7 @@ func SimulateUserList(count uint) []*pb.User {
 	return userList
 }
 
+// GetUserByID retrieves a user by ID
 func (us *userService) GetUserByID(ctx context.Context, req *pb.GetUserByIDReq) (*pb.GetUserByIDRes, error) {
 
 	res := &pb.GetUserByIDRes{}
@@ -62,6 +65,7 @@ func (us *userService) GetUserByID(ctx context.Context, req *pb.GetUserByIDReq) 
 	return nil, status.Errorf(codes.NotFound, "user not found")
 }
 
+// GetUserListByIDs retrieves a list of users by IDs
 func (us *userService) GetUserListByIDs(ctx context.Context, req *pb.GetUserListByIDsReq) (*pb.GetUserListByIDsRes, error) {
 
 	if len(req.Ids) == 0 {
@@ -98,6 +102,7 @@ func (us *userService) GetUserListByIDs(ctx context.Context, req *pb.GetUserList
 	return res, nil
 }
 
+// SearchUser searches for users based on filters
 func (us *userService) SearchUser(ctx context.Context, req *pb.SearchUserReq) (*pb.SearchUserRes, error) {
 
 	res := &pb.SearchUserRes{}
