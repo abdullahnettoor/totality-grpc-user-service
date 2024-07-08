@@ -8,6 +8,7 @@ import (
 	"github.com/abdullahnettoor/grpc-user-service/pkg/config"
 	"github.com/abdullahnettoor/grpc-user-service/pkg/service"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -23,6 +24,8 @@ func main() {
 
 	svr := grpc.NewServer()
 	pb.RegisterUserServiceServer(svr, service.NewUserServiceServer())
+
+	reflection.Register(svr)
 
 	log.Println("Server Started on Port", cfg.Port)
 	if err := svr.Serve(lis); err != nil {

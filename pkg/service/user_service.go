@@ -8,7 +8,6 @@ import (
 
 	"github.com/abdullahnettoor/grpc-user-service/pb"
 	"github.com/brianvoe/gofakeit/v6"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -19,9 +18,6 @@ type userService struct {
 }
 
 func NewUserServiceServer() *userService {
-	engine := grpc.NewServer()
-
-	pb.RegisterUserServiceServer(engine, pb.UnimplementedUserServiceServer{})
 
 	UserList := SimulateUserList(100)
 
@@ -91,7 +87,7 @@ func (us *userService) GetUserListByIDs(ctx context.Context, req *pb.GetUserList
 
 	if len(res.UserList) == 0 {
 		return nil, status.Errorf(codes.NotFound, "users not found")
-	} 
+	}
 
 	fmt.Printf("Found %d results\n", len(res.UserList))
 
