@@ -100,12 +100,17 @@ The gRPC service provides the following endpoints:
     *   Request: `SearchUserReq { city: "LA", isMarried: true }`
         
     *   Response: `SearchUserRes { userList: [User { id: 1, city: "LA", ... }] }`
+
+### Easy Access of Endpoints from Address
+gRPC reflection is used to retrieve gRPC endpoints from the URL for easy testing of the API. This means you don't need to import the proto file explicitly. The reflection service is enabled in the gRPC server to facilitate this.
+
         
 
 Containeraisation using Docker
 ----------------
 To run the application in a container, follow these steps: 
 - Generate docker image from the `Dockerfile` provided in the repository.
+
 - Run the `docker build -t grpc-user-service .` command to create docker image. 
 - Run the container using the command `docker run -d -p  9000:9000 grpc-user-service`
 - The application will be available at `localhost:9000`
@@ -119,6 +124,6 @@ Configuration Details
 
 *   **Generated Code**: The generated Go code from the protobuf definition is located in the `pb/` directory.
 
----
+#
 
-***Acknowledgment:** This assignment is a Coding Assessment given by Totality Corp for the purpose of a job opening. This project is completely created from scratch.*
+***Acknowledgment:** This assignment is a Coding Assessment given by Totality Corp for the purpose of a job opening. This project is completely created from scratch for the assessment.*
