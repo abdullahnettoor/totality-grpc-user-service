@@ -33,6 +33,7 @@ message GetUserListByIDsReq {
 
 message GetUserListByIDsRes {
     repeated User userList = 1;
+    repeated uint64 notFound = 2;
 }
 
 message SearchUserReq {
@@ -41,6 +42,7 @@ message SearchUserReq {
     string phone = 3;
     double height = 4;
     bool isMarried = 5;
+    bool isMarriedFilterApplied = 6;
 }
 
 message SearchUserRes {
